@@ -1,16 +1,32 @@
-# React + Vite
+# SS Sports – Webshop i React
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+En fungerande webshop byggd med React och Vite som en del av kursen React & Avancerad Javascript på Företagsuniversitetet.
 
-Currently, two official plugins are available:
+## Projektbeskrivning
+SS Sports är en e-handelsplattform där användare kan bläddra bland produkter, lägga till dem i en kundvagn och slutföra en order. Produkterna hämtas från DummyJSON API.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Funktioner
+- Produktlista med sökfunktion – hämtar och visar alla produkter från DummyJSON API
+- Produktsida – visar detaljerad information om en produkt med namn, pris, beskrivning och bild
+- Kundvagn – översikt över valda produkter med möjlighet att justera kvantitet och se totalpris
+- Kassa – användaren fyller i namn och adress och lägger sin order, en bekräftelse visas
 
-## React Compiler
+## Tekniker som används
+- React med Vite (create vite@latest)
+- Funktionella komponenter med hooks (useState, useEffect)
+- React Router för navigering mellan sidor
+- fetch för API-anrop till DummyJSON
+- debounce för prestandaoptimering
+- try...catch för felhantering
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Installation och start
+1. Klona projektet från GitHub
+2. Installera beroenden: npm install
+3. Starta projektet: npm run dev
+4. Öppna http://localhost:5173/ i webbläsaren
 
-## Expanding the ESLint configuration
+## Hur debounce är implementerad
+Debounce-funktionen är implementerad på sökfältet i produktlistan. När användaren skriver väntar applikationen 400ms innan sökningen körs. Detta förhindrar onödiga omrenderingar vid varje knapptryckning.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Hur felhantering med try...catch fungerar
+Alla API-anrop görs inuti useEffect med async/await och try...catch. Om ett nätverksfel uppstår fångas felet i catch-blocket och ett felmeddelande visas för användaren. Finally-blocket stänger alltid av laddningsindikatorn oavsett om anropet lyckades eller inte.
