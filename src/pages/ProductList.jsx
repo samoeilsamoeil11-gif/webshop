@@ -1,7 +1,6 @@
 // ProductList.jsx - Startsidan som visar alla produkter från DummyJSON API
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
-import debounce from 'debounce'
 
 function ProductList() {
   // Tillstånd för produktlistan
@@ -13,6 +12,9 @@ function ProductList() {
   // Tillstånd för söktext
   const [search, setSearch] = useState('')
   const navigate = useNavigate()
+
+  // useRef används för att spara timeout-referensen mellan renderingar
+  const debounceTimeout = useRef(null)
 
   // useEffect körs när komponenten laddas första gången
   useEffect(() => {
@@ -33,11 +35,17 @@ function ProductList() {
     fetchProducts()
   }, [])
 
-  // Debounce på sökfunktionen - väntar 400ms efter att användaren slutat skriva
+  // Egen debounce-funktion med setTimeout
+  // Rensar föregående timeout och sätter en ny på 400ms
   // Detta förhindrar onödiga omrenderingar vid varje knapptryckning
-  const handleSearch = debounce((value) => {
-    setSearch(value)
-  }, 400)
+  const handleSearch = (value) => {
+    if (debounceTimeout.current) {
+      clearTimeout(debounceTimeout.current)
+    }
+    debounceTimeout.current = setTimeout(() => {
+      setSearch(value)
+    }, 400)
+  }
 
   // Filtrerar produkter baserat på söktext
   const filtered = products.filter(p =>
@@ -62,18 +70,18 @@ function ProductList() {
           onClick={() => navigate('/cart')}
           style={{ backgroundColor: '#ffcc00', color: '#cc0000', border: 'none', padding: '0.7rem 1.4rem', fontWeight: '900', fontSize: '1rem', letterSpacing: '1px', borderRadius: '4px' }}
         >
-          🛒 KUNDVAGN
+          KUNDVAGN
         </button>
       </div>
 
       {/* Hero banner */}
       <div style={{ background: 'linear-gradient(135deg, #ff0000, #cc0000)', padding: '2rem', textAlign: 'center', borderBottom: '4px solid #ffcc00' }}>
-        <h2 style={{ color: '#ffcc00', fontSize: '1.5rem', letterSpacing: '4px', marginBottom: '0.3rem' }}>🔥 NYA KOLLEKTIONER 🔥</h2>
-        <p style={{ color: '#fff', letterSpacing: '2px', fontSize: '0.9rem' }}>GRATIS FRAKT PÅ ALLA ORDRAR ÖVER $50</p>
+        <h2 style={{ color: '#ffcc00', fontSize: '1.5rem', letterSpacing: '4px', marginBottom: '0.3rem' }}>NYA KOLLEKTIONER</h2>
+        <p style={{ color: '#fff', letterSpacing: '2px', fontSize: '0.9rem' }}>GRATIS FRAKT PA ALLA ORDRAR OVER $50</p>
       </div>
 
       <div style={{ padding: '2rem' }}>
-        {/* Sökfält med debounce för prestandaoptimering */}
+        {/* Sökfält med egen debounce */}
         <input
           type="text"
           placeholder="SÖK PRODUKT..."

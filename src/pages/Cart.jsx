@@ -1,8 +1,12 @@
 // Cart.jsx - Visar kundvagnen med alla valda produkter och totalpris
 import { useNavigate } from 'react-router-dom'
+// Importerar useCart från Context för att komma åt cart och updateQuantity utan props
+import { useCart } from '../CartContext'
 
-function Cart({ cart, updateQuantity }) {
+function Cart() {
   const navigate = useNavigate()
+  // Hämtar cart och updateQuantity från Context istället för props
+  const { cart, updateQuantity } = useCart()
 
   // Beräknar totalpriset för alla produkter i kundvagnen
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0)
@@ -22,7 +26,7 @@ function Cart({ cart, updateQuantity }) {
           onClick={() => navigate('/')}
           style={{ backgroundColor: '#cc0000', color: '#ffcc00', border: 'none', padding: '0.8rem 1.5rem', fontWeight: '900', letterSpacing: '1px', borderRadius: '4px' }}
         >
-          ← FORTSÄTT HANDLA
+          FORTSÄTT HANDLA
         </button>
       </div>
     </div>
@@ -72,14 +76,14 @@ function Cart({ cart, updateQuantity }) {
             onClick={() => navigate('/')}
             style={{ backgroundColor: '#fff', color: '#cc0000', border: '3px solid #cc0000', padding: '0.8rem 1.5rem', fontWeight: '900', letterSpacing: '1px', borderRadius: '4px' }}
           >
-            ← FORTSÄTT HANDLA
+            FORTSÄTT HANDLA
           </button>
           {/* Gå till kassan */}
           <button
             onClick={() => navigate('/checkout')}
             style={{ background: 'linear-gradient(135deg, #cc0000, #ff0000)', color: '#ffcc00', border: 'none', padding: '0.8rem 1.5rem', fontWeight: '900', letterSpacing: '1px', borderRadius: '4px', flex: 1, fontSize: '1rem' }}
           >
-            TILL KASSAN →
+            TILL KASSAN
           </button>
         </div>
       </div>

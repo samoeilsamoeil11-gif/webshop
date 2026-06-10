@@ -1,11 +1,15 @@
 // ProductPage.jsx - Visar detaljerad information om en specifik produkt
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
+// Importerar useCart från Context för att komma åt addToCart utan props
+import { useCart } from '../CartContext'
 
-function ProductPage({ addToCart }) {
+function ProductPage() {
   // Hämtar produktens ID från URL:en
   const { id } = useParams()
   const navigate = useNavigate()
+  // Hämtar addToCart från Context istället för props
+  const { addToCart } = useCart()
   // Tillstånd för produktdata
   const [product, setProduct] = useState(null)
   // Tillstånd för laddningsindikator
@@ -52,7 +56,7 @@ function ProductPage({ addToCart }) {
           onClick={() => navigate('/cart')}
           style={{ backgroundColor: '#ffcc00', color: '#cc0000', border: 'none', padding: '0.7rem 1.4rem', fontWeight: '900', fontSize: '1rem', letterSpacing: '1px', borderRadius: '4px' }}
         >
-          🛒 KUNDVAGN
+          KUNDVAGN
         </button>
       </div>
 
@@ -62,7 +66,7 @@ function ProductPage({ addToCart }) {
           onClick={() => navigate('/')}
           style={{ backgroundColor: '#cc0000', color: '#ffcc00', border: 'none', padding: '0.6rem 1.2rem', marginBottom: '1.5rem', fontWeight: '900', letterSpacing: '1px', borderRadius: '4px' }}
         >
-          ← TILLBAKA
+          TILLBAKA
         </button>
 
         {/* Produktkort med all detaljerad information */}
@@ -93,7 +97,7 @@ function ProductPage({ addToCart }) {
               onClick={() => { addToCart(product, quantity); navigate('/cart') }}
               style={{ background: 'linear-gradient(135deg, #cc0000, #ff0000)', color: '#ffcc00', border: 'none', padding: '1rem 2rem', fontWeight: '900', fontSize: '1rem', letterSpacing: '2px', width: '100%', borderRadius: '4px' }}
             >
-              LÄGG TILL I KUNDVAGN 🛒
+              LAGG TILL I KUNDVAGN
             </button>
           </div>
         </div>

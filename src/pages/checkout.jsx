@@ -1,9 +1,13 @@
 // Checkout.jsx - Kassasidan där användaren fyller i personliga uppgifter och lägger sin order
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+// Importerar useCart från Context för att komma åt cart utan props
+import { useCart } from '../CartContext'
 
-function Checkout({ cart }) {
+function Checkout() {
   const navigate = useNavigate()
+  // Hämtar cart från Context istället för props
+  const { cart } = useCart()
   // Tillstånd för namn och adress som användaren fyller i
   const [name, setName] = useState('')
   const [address, setAddress] = useState('')
@@ -34,7 +38,7 @@ function Checkout({ cart }) {
       {/* Bekräftelsekort */}
       <div style={{ padding: '2rem', maxWidth: '600px', margin: '0 auto', textAlign: 'center' }}>
         <div style={{ backgroundColor: '#fff', borderRadius: '8px', padding: '2rem', border: '3px solid #cc0000', marginTop: '2rem' }}>
-          <h2 style={{ color: '#cc0000', fontSize: '2rem', letterSpacing: '2px', marginBottom: '1rem' }}>🎉 ORDER BEKRÄFTAD!</h2>
+          <h2 style={{ color: '#cc0000', fontSize: '2rem', letterSpacing: '2px', marginBottom: '1rem' }}>ORDER BEKRÄFTAD!</h2>
           {/* Visar användarens namn och adress */}
           <p style={{ color: '#000', marginBottom: '0.5rem', fontSize: '1.1rem' }}>Tack <strong>{name}</strong>!</p>
           <p style={{ color: '#555', marginBottom: '1.5rem' }}>Din order skickas till <strong>{address}</strong>.</p>
@@ -95,14 +99,14 @@ function Checkout({ cart }) {
               onClick={() => navigate('/cart')}
               style={{ backgroundColor: '#fff', color: '#cc0000', border: '3px solid #cc0000', padding: '0.8rem 1.5rem', fontWeight: '900', letterSpacing: '1px', borderRadius: '4px' }}
             >
-              ← TILLBAKA
+              TILLBAKA
             </button>
             {/* Orderknapp - simulerar en beställningsprocess */}
             <button
               onClick={handleOrder}
               style={{ background: 'linear-gradient(135deg, #cc0000, #ff0000)', color: '#ffcc00', border: 'none', padding: '0.8rem 1.5rem', fontWeight: '900', letterSpacing: '2px', flex: 1, fontSize: '1rem', borderRadius: '4px' }}
             >
-              LÄGG DIN ORDER
+              LAGG DIN ORDER
             </button>
           </div>
         </div>
